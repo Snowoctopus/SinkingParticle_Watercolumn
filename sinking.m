@@ -1,20 +1,21 @@
 function(rho,rho0,eta)
-rho=1100; %颗粒密度 kg/m3
-rho0=1000;%水体密度 kg/m3
-g=9.8; %重力加速度 m/s2
-eta=1.005d-3;%水体的粘滞系数 Pa*s
-d;%颗粒物的直径，为公式表达简洁，取量纲为 m
-n;%颗粒物的个数
+rho=1100; %particle density kg/m3
+rho0=1000;%water density kg/m3
+g=9.8; %gravitational acceleration m/s2
+eta=1.005d-3;%Viscosity coefficient of water Pa*s
+d;% particle diameter锛宖or the simplicity of formula锛宑onsider its unit as m
+n;% particle numbers
 u=d.*d.*(rho-rho0).*g/18./eta;
-for t=1:14 %设时间间隔 单位暂时定为s
+for t=1:14 % time interval (s)
     z(:,t+1)=u.*t;
 end
-if sum(sum(z>1.5))~=0 %判断是否存在沉降距离大于水柱高度的颗粒
-    [row,column]=find(z>1.5);%识别沉降距离大于水柱高度的颗粒并记录其下标
-    z(row,column)=1.5;%使沉降距离大于水柱高度的颗粒停留在水柱底部，即位置不再变化
+if sum(sum(z>1.5))~=0 %  test whether the particle sinking distance longer than the water depth
+    [row,column]=find(z>1.5);% Identify particles whose sinking distance is greater than the depth of the water column and record their coordinates
+    z(row,column)=1.5;% Make the particles whose sinking distance is greater than the depth of the water column stay at the bottom of the water column, that is, the position does not change
 end
 size=d*100;
 sz=60;
+% plot
 for k=1:1+t
     test=z(:,k);
     figure()
@@ -44,4 +45,4 @@ for k=1:15;
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%画时间序列
+% plot the time series
